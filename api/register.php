@@ -1,6 +1,5 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-session_start();
+ob_start();
 header("Content-Type: application/json");
 
 require_once "../system/config.php";
