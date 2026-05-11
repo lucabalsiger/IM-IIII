@@ -14,7 +14,7 @@ function sendMail($to, $subject, $body) {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST           => true,
         CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer re_73Ztymxu_DpRFZyatk1MtterAfUqHVNer",
+            "Authorization: Bearer " . $resend_api_key,
             "Content-Type: application/json",
         ],
         CURLOPT_POSTFIELDS => json_encode([
