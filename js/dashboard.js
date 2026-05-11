@@ -19,14 +19,26 @@ function makeChart(id, color) {
         fill: true,
         backgroundColor: color.replace('rgb', 'rgba').replace(')', ',0.1)'),
         tension: 0.4,
-        pointRadius: 0,
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        pointBackgroundColor: color,
+        pointBorderWidth: 0,
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { x: { display: false }, y: { display: false } },
+      scales: {
+        x: { display: false },
+        y: {
+          display: true,
+          position: 'right',
+          ticks: { color: '#7888aa', font: { size: 10 }, maxTicksLimit: 4 },
+          grid:  { color: 'rgba(255,255,255,0.04)' },
+          border: { display: false },
+        },
+      },
       animation: false,
     }
   });

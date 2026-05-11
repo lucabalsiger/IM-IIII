@@ -73,7 +73,10 @@ async function load() {
         stepped: true,
         fill: true,
         backgroundColor: 'rgba(74,158,255,0.08)',
-        pointRadius: 0,
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        pointBackgroundColor: '#4a9eff',
+        pointBorderWidth: 0,
         segment: {
           borderColor: ctx => {
             const v = ctx.p0.parsed.y;
@@ -97,8 +100,10 @@ async function load() {
             color: '#7888aa',
             stepSize: 1,
             callback: v => v === 2 ? 'Calm' : v === 1 ? 'Restless' : v === 0 ? 'Awake' : '',
+            font: { size: 11 },
           },
           grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { display: false },
         }
       }
     }
