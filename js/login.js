@@ -65,7 +65,7 @@ form.addEventListener("submit", async (e) => {
 
     if (result.success) {
       showMsg("Login erfolgreich! Du wirst weitergeleitet…", "success");
-      setTimeout(() => { window.location.href = "index.html"; }, 1000);
+      setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
     } else {
       showMsg(result.message, "error");
       if (result.message.includes("E-Mail") || result.message.includes("registriert")) {

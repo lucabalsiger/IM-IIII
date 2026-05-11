@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Insights</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #070d1f;
+      color: #f0f4ff;
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 1.75rem 1.25rem 2rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .back-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #f0f4ff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-btn:hover { background: rgba(255,255,255,0.14); }
+
+    .topbar h1 { font-size: 1.5rem; font-weight: 700; }
+    .topbar p  { font-size: 0.85rem; color: #7888aa; margin-top: 0.2rem; }
+
+    .insight-card {
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.875rem;
+      align-items: flex-start;
+    }
+
+    .insight-card.good    { background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.2); }
+    .insight-card.warn    { background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.2); }
+    .insight-card.info    { background: rgba(74,158,255,0.1); border: 1px solid rgba(74,158,255,0.2); }
+
+    .insight-icon { font-size: 1.3rem; flex-shrink: 0; padding-top: 0.1rem; }
+
+    .insight-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .good  .insight-title { color: #22c55e; }
+    .warn  .insight-title { color: #fb923c; }
+    .info  .insight-title { color: #4a9eff; }
+
+    .insight-text { color: #7888aa; font-size: 0.85rem; line-height: 1.5; }
+
+    .score-card {
+      background: #0d1730;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .score-label { font-size: 0.85rem; color: #7888aa; margin-bottom: 0.5rem; }
+    .score-value { font-size: 3rem; font-weight: 700; }
+    .score-sub   { font-size: 0.85rem; color: #7888aa; margin-top: 0.25rem; }
+
+    .score-good { color: #22c55e; }
+    .score-ok   { color: #ffd166; }
+    .score-bad  { color: #fb923c; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <button class="back-btn" onclick="history.back()">‹</button>
+    <div>
+      <h1>AI Insights</h1>
+      <p>Based on your data</p>
+    </div>
+  </div>
+
+  <div id="score-section"></div>
+  <div id="insights-container"></div>
+
+  <script src="js/insights.js"></script>
+</body>
+</html>

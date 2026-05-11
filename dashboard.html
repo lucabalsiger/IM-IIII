@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environment</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #070d1f;
+      color: #f0f4ff;
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 1.75rem 1.25rem 2rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.75rem;
+    }
+
+    .topbar h1 { font-size: 1.8rem; font-weight: 700; }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #7888aa;
+      font-size: 0.875rem;
+      margin-top: 0.3rem;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #f0f4ff;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .logout-btn:hover { background: rgba(255,255,255,0.14); }
+
+    .card {
+      background: #0d1730;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .icon {
+      width: 46px; height: 46px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .icon-temp     { background: rgba(255,112,67,0.18); }
+    .icon-humidity { background: rgba(74,158,255,0.18); }
+    .icon-light    { background: rgba(255,209,102,0.18); }
+
+    .card-info { flex: 1; }
+    .card-label { font-size: 0.85rem; color: #7888aa; }
+    .card-value { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+
+    .badge {
+      padding: 0.25rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .optimal { background: rgba(34,197,94,0.18);  color: #22c55e; }
+    .warning  { background: rgba(251,146,60,0.18); color: #fb923c; }
+
+    .chart-wrap { height: 58px; margin-top: 1rem; }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.25rem;
+      background: #0d1730;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      color: #f0f4ff;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 0.5rem;
+    }
+
+    .nav-btn:hover { background: #132040; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div>
+      <h1>Environment</h1>
+      <div class="live"><div class="live-dot"></div>Live monitoring</div>
+    </div>
+    <button class="logout-btn" onclick="window.location.href='api/logout.php'">Logout</button>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="icon icon-temp">🌡️</div>
+      <div class="card-info">
+        <div class="card-label">Temperature</div>
+        <div class="card-value" id="temp-val">—</div>
+      </div>
+      <div class="badge optimal" id="temp-badge">—</div>
+    </div>
+    <div class="chart-wrap"><canvas id="temp-chart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="icon icon-humidity">💧</div>
+      <div class="card-info">
+        <div class="card-label">Humidity</div>
+        <div class="card-value" id="humidity-val">—</div>
+      </div>
+      <div class="badge optimal" id="humidity-badge">—</div>
+    </div>
+    <div class="chart-wrap"><canvas id="humidity-chart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="icon icon-light">☀️</div>
+      <div class="card-info">
+        <div class="card-label">Light Level</div>
+        <div class="card-value" id="light-val">—</div>
+      </div>
+      <div class="badge optimal" id="light-badge">—</div>
+    </div>
+    <div class="chart-wrap"><canvas id="light-chart"></canvas></div>
+  </div>
+
+  <a href="sleep.html" class="nav-btn">View Sleep Analysis <span>›</span></a>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

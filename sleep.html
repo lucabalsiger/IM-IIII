@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #070d1f;
+      color: #f0f4ff;
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 1.75rem 1.25rem 2rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .back-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #f0f4ff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover { background: rgba(255,255,255,0.14); }
+
+    .topbar h1   { font-size: 1.5rem; font-weight: 700; }
+    .topbar p    { font-size: 0.85rem; color: #7888aa; margin-top: 0.2rem; }
+
+    .card {
+      background: #0d1730;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .legend {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: #7888aa;
+    }
+
+    .legend-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    .chart-wrap { height: 180px; margin-top: 1rem; }
+
+    .wake-event {
+      background: rgba(251,146,60,0.1);
+      border: 1px solid rgba(251,146,60,0.25);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .wake-icon  { font-size: 1.1rem; flex-shrink: 0; padding-top: 0.1rem; }
+    .wake-title { color: #fb923c; font-weight: 600; font-size: 0.9rem; }
+    .wake-desc  { color: #7888aa; font-size: 0.8rem; margin-top: 0.2rem; }
+
+    .factors-list { list-style: none; }
+
+    .factors-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+
+    .factors-list li:last-child { border-bottom: none; }
+    .factors-list .lbl { color: #7888aa; }
+    .factors-list .val { font-weight: 600; }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.25rem;
+      background: #4f46e5;
+      border: none;
+      border-radius: 18px;
+      color: #f0f4ff;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 0.5rem;
+    }
+
+    .nav-btn:hover { background: #4338ca; }
+
+    .no-data {
+      text-align: center;
+      color: #7888aa;
+      padding: 3rem 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <button class="back-btn" onclick="history.back()">‹</button>
+    <div>
+      <h1>Sleep Analysis</h1>
+      <p id="date-label">Last night</p>
+    </div>
+  </div>
+
+  <div id="content"></div>
+
+  <script src="js/sleep.js"></script>
+</body>
+</html>
