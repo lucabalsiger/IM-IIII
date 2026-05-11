@@ -8,13 +8,13 @@ function send($data) {
     exit;
 }
 
-function sendMail($to, $subject, $body) {
+function sendMail($to, $subject, $body, $apiKey) {
     $ch = curl_init("https://api.resend.com/emails");
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST           => true,
         CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer " . $resend_api_key,
+            "Authorization: Bearer " . $apiKey,
             "Content-Type: application/json",
         ],
         CURLOPT_POSTFIELDS => json_encode([
@@ -56,6 +56,6 @@ $pdo->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (:e
 $resetLink = "https://im4.lucabalsiger.ch/reset-password.html?token=" . $token;
 $body      = "Hallo,\n\nKlicke auf den folgenden Link um dein Passwort zurückzusetzen:\n\n$resetLink\n\nDer Link ist 1 Stunde gültig.\n\nFalls du kein Passwort-Reset angefordert hast, ignoriere diese E-Mail.";
 
-sendMail($email, "Passwort zurücksetzen", $body);
+sendMail($email, "Passwort zurücksetzen", $body, $resend_api_key);
 
 send(["success" => true, "message" => "Falls diese E-Mail registriert ist, wurde ein Link gesendet."]);
