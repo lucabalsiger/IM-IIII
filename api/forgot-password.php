@@ -56,6 +56,11 @@ $pdo->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (:e
 $resetLink = "https://im4.lucabalsiger.ch/reset-password.html?token=" . $token;
 $body      = "Hallo,\n\nKlicke auf den folgenden Link um dein Passwort zurückzusetzen:\n\n$resetLink\n\nDer Link ist 1 Stunde gültig.\n\nFalls du kein Passwort-Reset angefordert hast, ignoriere diese E-Mail.";
 
-sendMail($email, "Passwort zurücksetzen", $body, $resend_api_key);
+$mailResult = sendMail($email, "Passwort zurücksetzen", $body, $resend_api_key);
+$mailJson   = json_decode($mailResult, true);
+
+if (isset($mailJson["statusCode"]) && $mailJson["statusCode"] >= 400) {
+    send(["success" => false, "message" => "Mail-Fehler: " . ($mailJson["message"] ?? $mailResult)]);
+}
 
 send(["success" => true, "message" => "Falls diese E-Mail registriert ist, wurde ein Link gesendet."]);
