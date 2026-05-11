@@ -1,8 +1,11 @@
-const form      = document.getElementById("registerForm");
-const msg       = document.getElementById("msg");
-const submitBtn = document.getElementById("submitBtn");
-const togglePw  = document.getElementById("togglePw");
-const pwInput   = document.getElementById("password");
+const form        = document.getElementById("registerForm");
+const msg         = document.getElementById("msg");
+const submitBtn   = document.getElementById("submitBtn");
+const togglePw    = document.getElementById("togglePw");
+const togglePw2   = document.getElementById("togglePw2");
+const pwInput     = document.getElementById("password");
+const pw2Input    = document.getElementById("password2");
+const emailInput  = document.getElementById("email");
 
 togglePw.addEventListener("click", () => {
   const show = pwInput.type === "password";
@@ -10,25 +13,63 @@ togglePw.addEventListener("click", () => {
   togglePw.textContent = show ? "Verstecken" : "Zeigen";
 });
 
+togglePw2.addEventListener("click", () => {
+  const show = pw2Input.type === "password";
+  pw2Input.type = show ? "text" : "password";
+  togglePw2.textContent = show ? "Verstecken" : "Zeigen";
+});
+
 function showMsg(text, type) {
   msg.textContent = text;
   msg.className = "message " + type;
 }
 
+function resetBtn() {
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Konto erstellen";
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   msg.className = "message";
+  [emailInput, pwInput, pw2Input].forEach(el => el.classList.remove("error"));
 
-  const email    = document.getElementById("email").value.trim();
-  const password = pwInput.value.trim();
+  const email     = emailInput.value.trim();
+  const password  = pwInput.value.trim();
+  const password2 = pw2Input.value.trim();
 
-  if (!email || !password) {
-    showMsg("Bitte alle Felder ausfüllen.", "error");
+  if (!email) {
+    showMsg("Bitte E-Mail-Adresse eingeben.", "error");
+    emailInput.classList.add("error");
+    emailInput.focus();
+    return;
+  }
+
+  if (!email.includes("@")) {
+    showMsg("Ungültige E-Mail-Adresse.", "error");
+    emailInput.classList.add("error");
+    emailInput.focus();
+    return;
+  }
+
+  if (!password) {
+    showMsg("Bitte Passwort eingeben.", "error");
+    pwInput.classList.add("error");
+    pwInput.focus();
     return;
   }
 
   if (password.length < 6) {
     showMsg("Das Passwort muss mindestens 6 Zeichen lang sein.", "error");
+    pwInput.classList.add("error");
+    pwInput.focus();
+    return;
+  }
+
+  if (password !== password2) {
+    showMsg("Die Passwörter stimmen nicht überein.", "error");
+    pw2Input.classList.add("error");
+    pw2Input.focus();
     return;
   }
 
@@ -45,16 +86,19 @@ form.addEventListener("submit", async (e) => {
     const result = await response.json();
 
     if (result.success) {
-      showMsg("Konto erstellt! Du wirst zum Login weitergeleitet…", "success");
+      showMsg("Konto erfolgreich erstellt! Du wirst zum Login weitergeleitet…", "success");
       setTimeout(() => { window.location.href = "login.html"; }, 1500);
     } else {
       showMsg(result.message, "error");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Konto erstellen";
+      if (result.message.includes("E-Mail") || result.message.includes("registriert")) {
+        emailInput.classList.add("error");
+      } else if (result.message.includes("Passwort")) {
+        pwInput.classList.add("error");
+      }
+      resetBtn();
     }
   } catch {
-    showMsg("Ein Fehler ist aufgetreten. Bitte erneut versuchen.", "error");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Konto erstellen";
+    showMsg("Verbindungsfehler. Bitte erneut versuchen.", "error");
+    resetBtn();
   }
 });

@@ -5,11 +5,16 @@ header("Content-Type: application/json");
 
 require_once "../system/config.php";
 
-$email    = $_POST["email"]    ?? "";
-$password = $_POST["password"] ?? "";
+$email    = trim($_POST["email"]    ?? "");
+$password = trim($_POST["password"] ?? "");
 
 if (empty($email) || empty($password)) {
-    echo json_encode(["success" => false, "message" => "Email und Passwort sind Pflicht."]);
+    echo json_encode(["success" => false, "message" => "Bitte alle Felder ausfüllen."]);
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["success" => false, "message" => "Ungültige E-Mail-Adresse."]);
     exit;
 }
 
@@ -17,8 +22,13 @@ $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = :email");
 $stmt->execute([":email" => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$user || !password_verify($password, $user["password"])) {
-    echo json_encode(["success" => false, "message" => "Ungültige Anmeldedaten."]);
+if (!$user) {
+    echo json_encode(["success" => false, "message" => "Diese E-Mail-Adresse ist nicht registriert."]);
+    exit;
+}
+
+if (!password_verify($password, $user["password"])) {
+    echo json_encode(["success" => false, "message" => "Falsches Passwort."]);
     exit;
 }
 
