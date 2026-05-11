@@ -1,25 +1,60 @@
-console.log("Register.js verbunden!");
- 
-document.getElementById("registerForm")
-  .addEventListener("submit", async (e) => {
-    // verhindert, dass das Formular die Seite neu lädt
-    e.preventDefault();
-    console.log("Submit!!");
- 
-    const email = document.getElementById("email").value.trim();
- 
-    const password = document.getElementById("password").value.trim();
- 
-    console.log(email + " " + password);
- 
-    try {
-      const response = await fetch("api/register.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ email, password }),
-      });
- 
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {}
-  });
+const form      = document.getElementById("registerForm");
+const msg       = document.getElementById("msg");
+const submitBtn = document.getElementById("submitBtn");
+const togglePw  = document.getElementById("togglePw");
+const pwInput   = document.getElementById("password");
+
+togglePw.addEventListener("click", () => {
+  const show = pwInput.type === "password";
+  pwInput.type = show ? "text" : "password";
+  togglePw.textContent = show ? "Verstecken" : "Zeigen";
+});
+
+function showMsg(text, type) {
+  msg.textContent = text;
+  msg.className = "message " + type;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  msg.className = "message";
+
+  const email    = document.getElementById("email").value.trim();
+  const password = pwInput.value.trim();
+
+  if (!email || !password) {
+    showMsg("Bitte alle Felder ausfüllen.", "error");
+    return;
+  }
+
+  if (password.length < 6) {
+    showMsg("Das Passwort muss mindestens 6 Zeichen lang sein.", "error");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Lädt…";
+
+  try {
+    const response = await fetch("api/register.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ email, password }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      showMsg("Konto erstellt! Du wirst zum Login weitergeleitet…", "success");
+      setTimeout(() => { window.location.href = "login.html"; }, 1500);
+    } else {
+      showMsg(result.message, "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Konto erstellen";
+    }
+  } catch {
+    showMsg("Ein Fehler ist aufgetreten. Bitte erneut versuchen.", "error");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Konto erstellen";
+  }
+});
