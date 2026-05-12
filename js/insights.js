@@ -120,7 +120,7 @@ async function load() {
     } else {
       score -= 25; issues++;
       addInsight(container, 'warn', '💤', 'Poor Sleep Quality',
-        `Only ${calmPct}% of sleep was calm. Check temperature, noise, and light levels.`);
+        `Only ${calmPct}% of sleep was calm. Check temperature, noise, and humidity levels.`);
     }
   }
 
