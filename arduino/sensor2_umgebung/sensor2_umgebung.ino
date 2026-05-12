@@ -23,6 +23,9 @@ void setup() {
   Serial.begin(115200);
   dht.begin();
 
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect(true);
+  delay(100);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   Serial.print("Verbinde mit WLAN");
   while (WiFi.status() != WL_CONNECTED) {

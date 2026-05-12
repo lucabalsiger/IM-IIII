@@ -13,7 +13,7 @@ const char* WIFI_PASS = "WLAN-PASSWORT";
 const char* API_URL   = "https://im4.lucabalsiger.ch/api/sensor.php";
 const int   USER_ID   = 11;
 
-const int   DHT_PIN   = 4;     // GPIO-Pin des DHT22
+const int   DHT_PIN   = 4;     // GPIO-Pin des DHT11
 const int   INTERVAL  = 300;   // Sekunden zwischen Messungen (5 Min)
 // ────────────────────────────────────────────────────────────────
 
@@ -23,6 +23,9 @@ void setup() {
   Serial.begin(115200);
   dht.begin();
 
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect(true);
+  delay(100);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   Serial.print("Verbinde mit WLAN");
   while (WiFi.status() != WL_CONNECTED) {
