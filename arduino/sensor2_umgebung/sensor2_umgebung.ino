@@ -1,5 +1,5 @@
-// Sensor 1 — Temperatur & Luftfeuchtigkeit
-// Hardware: ESP32-C6 + DHT22
+// Sensor 2 — Temperatur & Luftfeuchtigkeit (Umgebung)
+// Hardware: ESP32-C6 + DHT11
 // Library: "DHT sensor library" von Adafruit (Arduino IDE Library Manager)
 
 #include <WiFi.h>
@@ -10,10 +10,10 @@
 const char* WIFI_SSID = "WLAN-NAME";
 const char* WIFI_PASS = "WLAN-PASSWORT";
 
-const char* API_URL   = "https://im4.lucabalsiger.ch/api/sensor.php";
+const char* API_URL   = "https://im4.lucabalsiger.ch/api/sensor_write.php";
 const int   USER_ID   = 11;
 
-const int   DHT_PIN   = 4;     // GPIO-Pin des DHT22
+const int   DHT_PIN   = 4;     // GPIO-Pin des DHT11
 const int   INTERVAL  = 300;   // Sekunden zwischen Messungen (5 Min)
 // ────────────────────────────────────────────────────────────────
 
@@ -37,7 +37,7 @@ void loop() {
   float hum  = dht.readHumidity();
 
   if (isnan(temp) || isnan(hum)) {
-    Serial.println("Fehler: DHT22 liefert keine Daten");
+    Serial.println("Fehler: DHT11 liefert keine Daten");
     delay(5000);
     return;
   }
