@@ -86,7 +86,7 @@
 
     .icon-temp     { background: rgba(255,112,67,0.18); }
     .icon-humidity { background: rgba(74,158,255,0.18); }
-    .icon-light    { background: rgba(255,209,102,0.18); }
+    .icon-sound    { background: rgba(168,85,247,0.18); }
 
     .card-info { flex: 1; }
     .card-label { font-size: 0.85rem; color: #7888aa; }
@@ -158,14 +158,14 @@
 
   <div class="card">
     <div class="card-header">
-      <div class="icon icon-light">☀️</div>
+      <div class="icon icon-sound">🔊</div>
       <div class="card-info">
-        <div class="card-label">Light Level</div>
-        <div class="card-value" id="light-val">—</div>
+        <div class="card-label">Sound Level</div>
+        <div class="card-value" id="sound-val">—</div>
       </div>
-      <div class="badge optimal" id="light-badge">—</div>
+      <div class="badge optimal" id="sound-badge">—</div>
     </div>
-    <div class="chart-wrap"><canvas id="light-chart"></canvas></div>
+    <div class="chart-wrap"><canvas id="sound-chart"></canvas></div>
   </div>
 
   <a href="sleep.html" class="nav-btn">View Sleep Analysis <span>›</span></a>

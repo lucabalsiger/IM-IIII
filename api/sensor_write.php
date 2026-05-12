@@ -17,10 +17,10 @@ if (!$type || !$user_id) {
 if ($type === 'environment') {
     $temp  = (float)($_POST['temperature']  ?? 0);
     $hum   = (float)($_POST['humidity']     ?? 0);
-    $light = (int)  ($_POST['light_level']  ?? 0);
+    $light = (int)  ($_POST['sound_level']  ?? 0);
 
     $stmt = $pdo->prepare(
-        "INSERT INTO sensor_environment (user_id, temperature, humidity, light_level)
+        "INSERT INTO sensor_environment (user_id, temperature, humidity, sound_level)
          VALUES (?, ?, ?, ?)"
     );
     $stmt->execute([$user_id, $temp, $hum, $light]);

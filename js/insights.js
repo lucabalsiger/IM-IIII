@@ -43,9 +43,9 @@ async function load() {
 
   // Temperature analysis
   if (envData.length) {
-    const avgTemp = envData.reduce((s, d) => s + parseFloat(d.temperature), 0) / envData.length;
-    const avgHum  = envData.reduce((s, d) => s + parseFloat(d.humidity), 0) / envData.length;
-    const avgLight = envData.reduce((s, d) => s + parseInt(d.light_level), 0) / envData.length;
+    const avgTemp  = envData.reduce((s, d) => s + parseFloat(d.temperature), 0) / envData.length;
+    const avgHum   = envData.reduce((s, d) => s + parseFloat(d.humidity), 0) / envData.length;
+    const avgSound = envData.reduce((s, d) => s + parseInt(d.sound_level), 0) / envData.length;
 
     if (avgTemp > 23) {
       score -= 20; issues++;
@@ -73,13 +73,17 @@ async function load() {
         `Average humidity was ${Math.round(avgHum)}% — within the ideal range.`);
     }
 
-    if (avgLight > 10) {
+    if (avgSound > 50) {
       score -= 20; issues++;
-      addInsight(container, 'warn', '☀️', 'Light Detected During Sleep',
-        `Average light level was ${Math.round(avgLight)} lux. Even low light during sleep can suppress melatonin. Try blackout curtains.`);
+      addInsight(container, 'warn', '🔊', 'Too Noisy During Sleep',
+        `Average sound level was ${Math.round(avgSound)} dB — above the recommended 40 dB for sleep. Noise disrupts sleep cycles and reduces deep sleep.`);
+    } else if (avgSound > 40) {
+      score -= 10;
+      addInsight(container, 'info', '🔉', 'Slightly Elevated Noise',
+        `Average sound level was ${Math.round(avgSound)} dB. Slightly above ideal — consider earplugs or a white noise machine.`);
     } else {
-      addInsight(container, 'good', '🌑', 'Dark Sleep Environment',
-        'Light levels were low — ideal conditions for melatonin production and deep sleep.');
+      addInsight(container, 'good', '🔇', 'Quiet Sleep Environment',
+        `Average sound level was ${Math.round(avgSound)} dB — ideal conditions for uninterrupted sleep.`);
     }
   }
 

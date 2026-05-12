@@ -1,5 +1,5 @@
-// Sensor 2 — Licht & Schlafqualität
-// Hardware: ESP32-C6 + LDR (analog) + MPU6050 (Bewegung via I2C)
+// Sensor 2 — Geräusch & Schlafqualität
+// Hardware: ESP32-C6 + KY-038 Schallsensor (analog) + MPU6050 (Bewegung via I2C)
 // Libraries:
 //   - "Adafruit MPU6050" von Adafruit (Library Manager)
 //   - "Adafruit Unified Sensor" von Adafruit (Abhängigkeit)
@@ -17,7 +17,7 @@ const char* WIFI_PASS = "WLAN-PASSWORT";
 const char* API_URL   = "https://im4.lucabalsiger.ch/api/sensor.php";
 const int   USER_ID   = 11;
 
-const int   LDR_PIN   = 34;    // Analoger GPIO-Pin für LDR
+const int   SOUND_PIN = 34;    // Analoger GPIO-Pin für KY-038 (A0)
 const int   INTERVAL  = 300;   // Sekunden zwischen Messungen (5 Min)
 
 // Schwellenwerte Bewegungserkennung (ggf. anpassen)
@@ -54,7 +54,6 @@ String detectSleepQuality() {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
-    // Betrag der Beschleunigung (ohne Erdanziehung ~9.8)
     float magnitude = sqrt(
       pow(a.acceleration.x, 2) +
       pow(a.acceleration.y, 2) +
@@ -72,11 +71,17 @@ String detectSleepQuality() {
   return "calm";
 }
 
-int readLightLevel() {
-  // LDR: analogRead gibt 0–4095 zurück (ESP32 = 12-bit ADC)
-  // Umrechnung auf Lux-ähnliche Skala 0–1000
-  int raw = analogRead(LDR_PIN);
-  return map(raw, 0, 4095, 0, 1000);
+int readSoundLevel() {
+  // KY-038: mehrere Samples über 1 Sekunde → Spitzenwert
+  // analogRead gibt 0–4095 zurück (ESP32 12-bit ADC)
+  // Mapping auf dB-ähnliche Skala 0–100
+  int peak = 0;
+  for (int i = 0; i < 50; i++) {
+    int val = analogRead(SOUND_PIN);
+    if (val > peak) peak = val;
+    delay(20);
+  }
+  return map(peak, 0, 4095, 0, 100);
 }
 
 void postData(String type, String body) {
@@ -89,26 +94,24 @@ void postData(String type, String body) {
 }
 
 void loop() {
-  int    light   = readLightLevel();
+  int    sound   = readSoundLevel();
   String quality = detectSleepQuality();
 
-  Serial.printf("Licht: %d lux | Schlaf: %s\n", light, quality.c_str());
+  Serial.printf("Geräusch: %d dB | Schlaf: %s\n", sound, quality.c_str());
 
   if (WiFi.status() == WL_CONNECTED) {
-    // Lichtwert als environment senden
     postData("environment",
       "type=environment"
       "&user_id="     + String(USER_ID) +
       "&temperature=0"
       "&humidity=0"
-      "&light_level=" + String(light)
+      "&sound_level=" + String(sound)
     );
 
-    // Schlafqualität senden
     postData("sleep",
       "type=sleep"
-      "&user_id="  + String(USER_ID) +
-      "&quality="  + quality
+      "&user_id=" + String(USER_ID) +
+      "&quality=" + quality
     );
   } else {
     Serial.println("WLAN getrennt – überspringe");

@@ -54,6 +54,7 @@ async function load() {
       <ul class="factors-list">
         <li><span class="lbl">Avg. Temperature</span><span class="val" id="avg-temp">—</span></li>
         <li><span class="lbl">Avg. Humidity</span><span class="val" id="avg-hum">—</span></li>
+        <li><span class="lbl">Avg. Sound Level</span><span class="val" id="avg-sound">—</span></li>
         <li><span class="lbl">Total Sleep</span><span class="val" id="total-sleep">—</span></li>
         <li><span class="lbl">Wake Events</span><span class="val" id="wake-count">—</span></li>
       </ul>
@@ -133,10 +134,12 @@ async function load() {
 
   // Environmental factors
   if (envData.length) {
-    const avgTemp = (envData.reduce((s, d) => s + parseFloat(d.temperature), 0) / envData.length).toFixed(1);
-    const avgHum  = Math.round(envData.reduce((s, d) => s + parseFloat(d.humidity), 0) / envData.length);
-    document.getElementById('avg-temp').textContent = avgTemp + '°C';
-    document.getElementById('avg-hum').textContent  = avgHum + '%';
+    const avgTemp  = (envData.reduce((s, d) => s + parseFloat(d.temperature), 0) / envData.length).toFixed(1);
+    const avgHum   = Math.round(envData.reduce((s, d) => s + parseFloat(d.humidity), 0) / envData.length);
+    const avgSound = Math.round(envData.reduce((s, d) => s + parseInt(d.sound_level), 0) / envData.length);
+    document.getElementById('avg-temp').textContent  = avgTemp + '°C';
+    document.getElementById('avg-hum').textContent   = avgHum + '%';
+    document.getElementById('avg-sound').textContent = avgSound + ' dB';
   }
 
   const sleepMinutes = sleepData.filter(d => d.quality !== 'awake').length * 5;

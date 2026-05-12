@@ -67,15 +67,15 @@ async function loadData() {
 
     document.getElementById('temp-val').textContent     = parseFloat(latest.temperature).toFixed(1) + '°C';
     document.getElementById('humidity-val').textContent = parseFloat(latest.humidity).toFixed(0) + '%';
-    document.getElementById('light-val').textContent    = parseInt(latest.light_level) + ' lux';
+    document.getElementById('sound-val').textContent    = parseInt(latest.sound_level) + ' dB';
 
     setBadge('temp-badge',     latest.temperature >= 18 && latest.temperature <= 22);
     setBadge('humidity-badge', latest.humidity    >= 40 && latest.humidity    <= 60);
-    setBadge('light-badge',    latest.light_level <= 10);
+    setBadge('sound-badge',    latest.sound_level <= 40);
 
     updateChart(charts.temp,     rows.map(d => parseFloat(d.temperature)));
     updateChart(charts.humidity, rows.map(d => parseFloat(d.humidity)));
-    updateChart(charts.light,    rows.map(d => parseInt(d.light_level)));
+    updateChart(charts.sound,    rows.map(d => parseInt(d.sound_level)));
   } catch (e) {
     console.error(e);
   }
@@ -84,7 +84,7 @@ async function loadData() {
 checkAuth().then(() => {
   charts.temp     = makeChart('temp-chart',     'rgb(255,112,67)');
   charts.humidity = makeChart('humidity-chart', 'rgb(74,158,255)');
-  charts.light    = makeChart('light-chart',    'rgb(255,209,102)');
+  charts.sound    = makeChart('sound-chart',    'rgb(168,85,247)');
   loadData();
   setInterval(loadData, 10000);
 });

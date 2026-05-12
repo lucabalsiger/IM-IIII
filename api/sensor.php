@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($type === 'environment') {
         $temperature = (float)($_POST['temperature'] ?? 0);
         $humidity    = (float)($_POST['humidity']    ?? 0);
-        $light_level = (int)($_POST['light_level']   ?? 0);
+        $sound_level = (int)($_POST['sound_level']   ?? 0);
 
-        $pdo->prepare("INSERT INTO environment_data (user_id, temperature, humidity, light_level) VALUES (:uid, :temp, :hum, :light)")
-            ->execute([':uid' => $user_id, ':temp' => $temperature, ':hum' => $humidity, ':light' => $light_level]);
+        $pdo->prepare("INSERT INTO environment_data (user_id, temperature, humidity, sound_level) VALUES (:uid, :temp, :hum, :sound)")
+            ->execute([':uid' => $user_id, ':temp' => $temperature, ':hum' => $humidity, ':sound' => $sound_level]);
 
         send(["success" => true]);
     }
@@ -54,7 +54,7 @@ $type    = $_GET['type'] ?? 'environment';
 
 if ($type === 'environment') {
     $limit = min((int)($_GET['limit'] ?? 20), 100);
-    $stmt  = $pdo->prepare("SELECT temperature, humidity, light_level, created_at FROM environment_data WHERE user_id = :uid ORDER BY created_at DESC LIMIT :lim");
+    $stmt  = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid ORDER BY created_at DESC LIMIT :lim");
     $stmt->bindValue(':uid', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':lim', $limit,   PDO::PARAM_INT);
     $stmt->execute();

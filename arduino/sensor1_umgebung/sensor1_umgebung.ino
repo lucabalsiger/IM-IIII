@@ -53,7 +53,7 @@ void loop() {
                   "&user_id="     + String(USER_ID) +
                   "&temperature=" + String(temp, 1) +
                   "&humidity="    + String(hum, 0) +
-                  "&light_level=0";
+                  "&sound_level=0";
 
     int code = http.POST(body);
     Serial.println("HTTP Response: " + String(code));
