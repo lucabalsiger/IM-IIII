@@ -18,7 +18,7 @@ Baby Sleep Assistant überwacht automatisch Temperatur, Luftfeuchtigkeit und Ger
 
 ### UX & Konzeption
 
-* **Figma:** [Link zum Figma](http://link.zum.figma)
+* **Figma:** [Link zum Figma](https://www.figma.com/design/K9hdwVbvVTHuySxNX6CKSt/IM-4-%E2%80%93-App-Konzeption-Vorlage?node-id=40000119-196&t=oJSTsCzgdP61sonk-1)
 * **User Flow + Screen Flow** *(Screenshot aus Figma einfügen)*
 
 **Umgesetzte Features:**
@@ -37,7 +37,7 @@ Baby Sleep Assistant überwacht automatisch Temperatur, Luftfeuchtigkeit und Ger
 
 ### Setup
 
-* **WebApp:** [im4.lucabalsiger.ch](https://im4.lucabalsiger.ch)
+* **WebApp:** [im4.lucabalsiger.ch/dashboard.html](https://im4.lucabalsiger.ch/dashboard.html)
 * **Video-Dokumentation:** [Link zum Video auf Youtube](http://link.zum.video)
 
 #### Installationsanleitung WebApp
