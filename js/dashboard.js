@@ -65,9 +65,14 @@ function setBadge(id, isOptimal) {
 }
 
 function updateChart(chart, rows, getValue, unit) {
-  chart.data.labels           = rows.map(d =>
-    new Date(d.created_at).toLocaleString('de-CH', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
-  );
+  chart.data.labels           = rows.map(d => {
+    const t = new Date(d.created_at);
+    const day   = String(t.getDate()).padStart(2, '0');
+    const month = String(t.getMonth() + 1).padStart(2, '0');
+    const hh    = String(t.getHours()).padStart(2, '0');
+    const mm    = String(t.getMinutes()).padStart(2, '0');
+    return `${day}.${month} ${hh}:${mm}`;
+  });
   chart.data.datasets[0].data = rows.map(getValue);
   chart.options.plugins.tooltip.callbacks.label = item => ' ' + item.parsed.y + ' ' + unit;
   chart.update('none');
