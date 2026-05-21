@@ -125,9 +125,16 @@
 </head>
 <body>
   <div class="topbar">
-    <div>
-      <h1>Environment</h1>
-      <div class="live"><div class="live-dot"></div>Live monitoring</div>
+    <div style="display:flex;align-items:center;gap:0.75rem">
+      <div style="width:42px;height:42px;background:#1e2340;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#818cf8"/>
+        </svg>
+      </div>
+      <div>
+        <h1 style="font-size:1.2rem">Baby Sleep Assistant</h1>
+        <div class="live"><div class="live-dot"></div>Live monitoring</div>
+      </div>
     </div>
     <button class="logout-btn" onclick="window.location.href='api/logout.php'">Logout</button>
   </div>

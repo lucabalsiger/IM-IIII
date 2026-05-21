@@ -120,10 +120,30 @@
     }
 
     .footer a:hover { text-decoration: underline; }
+
+    .branding { text-align: center; margin-bottom: 2rem; }
+    .logo-wrap {
+      width: 72px; height: 72px;
+      background: #1e2340;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .app-name   { font-size: 1.4rem; font-weight: 700; color: #111; }
+    .app-slogan { font-size: 0.85rem; color: #888; margin-top: 0.25rem; }
   </style>
 </head>
 <body>
   <div class="card">
+    <div class="branding">
+      <div class="logo-wrap">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#818cf8"/>
+        </svg>
+      </div>
+      <div class="app-name">Baby Sleep Assistant</div>
+      <div class="app-slogan">Monitor your baby's sleep environment</div>
+    </div>
     <h1>Registrieren</h1>
 
     <div id="msg" class="message"></div>
