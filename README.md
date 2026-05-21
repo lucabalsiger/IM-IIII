@@ -19,6 +19,12 @@ Baby Sleep Assistant überwacht automatisch Temperatur, Luftfeuchtigkeit und Ger
 ### UX & Konzeption
 
 * **Figma:** [Link zum Figma](https://www.figma.com/design/K9hdwVbvVTHuySxNX6CKSt/IM-4-%E2%80%93-App-Konzeption-Vorlage?node-id=40000119-196&t=oJSTsCzgdP61sonk-1)
+* **Mockup-Variante 1** (Smart Baby Environment App):
+
+![Figma Mockup](Bildschirmfoto%202026-05-21%20um%2010.45.55.png)
+
+> *Hinweis: Die Mockups haben oben einen Play Button. Diesen drücken um auf den Startscreen zu kommen, dann direkt reinklicken und durchklicken.*
+
 * **User Flow + Screen Flow** *(Screenshot aus Figma einfügen)*
 
 **Umgesetzte Features:**
