@@ -142,7 +142,14 @@ async function load() {
     document.getElementById('avg-sound').textContent = avgSound + ' dB';
   }
 
-  const sleepMinutes = sleepData.filter(d => d.quality !== 'awake').length * 5;
+  // Berechnung basierend auf echten Zeitstempeln
+  let sleepMinutes = 0;
+  for (let i = 0; i < sleepData.length - 1; i++) {
+    if (sleepData[i].quality !== 'awake') {
+      const diff = (new Date(sleepData[i + 1].created_at) - new Date(sleepData[i].created_at)) / 60000;
+      sleepMinutes += diff;
+    }
+  }
   document.getElementById('total-sleep').textContent = Math.floor(sleepMinutes / 60) + 'h ' + (sleepMinutes % 60) + 'm';
   document.getElementById('wake-count').textContent  = wakeEvents.length;
 }
