@@ -25,7 +25,9 @@ Baby Sleep Assistant überwacht automatisch Temperatur, Luftfeuchtigkeit und Ger
 
 > *Hinweis: Die Mockups haben oben einen Play Button. Diesen drücken um auf den Startscreen zu kommen, dann direkt reinklicken und durchklicken.*
 
-* **User Flow + Screen Flow** *(Screenshot aus Figma einfügen)*
+* **User Flow + Screen Flow:**
+
+![User Flow](Bildschirmfoto%202026-05-21%20um%2010.45.55.png)
 
 **Umgesetzte Features:**
 - Live-Dashboard mit Temperatur, Luftfeuchtigkeit und Geräuschpegel
