@@ -5,8 +5,8 @@
 * **Modul:** Interaktive Medien 4 an der Fachhochschule Graubünden (FS26)
 * **Themenfeld:** IoT-Applikation zum Thema Eltern mit kleinen Kindern
 * **Name des Projekts:** Baby Sleep Assistant
-* **Team Physical Computing:** *[Namen eintragen]*
-* **Team WebApp:** Luca Balsiger
+* **Team Physical Computing:** Laura Jäger, Lorena Ritschard
+* **Team WebApp:** Luca Balsiger, Jule Metzger
 
 **Welches Problem wird gelöst?**
 Eltern mit kleinen Kindern wissen oft nicht, ob die Schlafumgebung ihres Kindes optimal ist. Zu warme, zu laute oder zu feuchte Räume beeinflussen die Schlafqualität erheblich — ohne dass Eltern es merken.
