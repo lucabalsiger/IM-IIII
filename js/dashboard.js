@@ -28,7 +28,21 @@ function makeChart(id, color) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: items => items[0].label,
+              label: item => ' ' + item.parsed.y,
+            },
+            backgroundColor: '#0d1730',
+            titleColor: '#7888aa',
+            bodyColor: '#f0f4ff',
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
+            padding: 10,
+          },
+        },
       scales: {
         x: { display: false },
         y: {
@@ -50,9 +64,12 @@ function setBadge(id, isOptimal) {
   el.className   = 'badge ' + (isOptimal ? 'optimal' : 'warning');
 }
 
-function updateChart(chart, data) {
-  chart.data.labels            = data.map((_, i) => i);
-  chart.data.datasets[0].data  = data;
+function updateChart(chart, rows, getValue, unit) {
+  chart.data.labels           = rows.map(d =>
+    new Date(d.created_at).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })
+  );
+  chart.data.datasets[0].data = rows.map(getValue);
+  chart.options.plugins.tooltip.callbacks.label = item => ' ' + item.parsed.y + ' ' + unit;
   chart.update('none');
 }
 
@@ -73,9 +90,9 @@ async function loadData() {
     setBadge('humidity-badge', latest.humidity    >= 40 && latest.humidity    <= 60);
     setBadge('sound-badge',    latest.sound_level <= 40);
 
-    updateChart(charts.temp,     rows.map(d => parseFloat(d.temperature)));
-    updateChart(charts.humidity, rows.map(d => parseFloat(d.humidity)));
-    updateChart(charts.sound,    rows.map(d => parseInt(d.sound_level)));
+    updateChart(charts.temp,     rows, d => parseFloat(d.temperature), '°C');
+    updateChart(charts.humidity, rows, d => parseFloat(d.humidity),    '%');
+    updateChart(charts.sound,    rows, d => parseInt(d.sound_level),   'dB');
   } catch (e) {
     console.error(e);
   }
