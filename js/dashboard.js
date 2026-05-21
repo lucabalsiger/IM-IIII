@@ -66,7 +66,7 @@ function setBadge(id, isOptimal) {
 
 function updateChart(chart, rows, getValue, unit) {
   chart.data.labels           = rows.map(d =>
-    new Date(d.created_at).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })
+    new Date(d.created_at).toLocaleString('de-CH', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
   );
   chart.data.datasets[0].data = rows.map(getValue);
   chart.options.plugins.tooltip.callbacks.label = item => ' ' + item.parsed.y + ' ' + unit;
