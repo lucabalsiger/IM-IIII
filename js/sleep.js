@@ -39,14 +39,19 @@ async function load() {
   // Sleep quality chart
   content.innerHTML = `
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
         <div class="card-title" style="margin:0">Sleep Quality</div>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#4a9eff"></div>Calm</div>
           <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Restless</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Awake</div>
         </div>
       </div>
-      <div class="chart-wrap"><canvas id="sleep-chart"></canvas></div>
+      <div id="sleep-timeline" style="display:flex;height:36px;border-radius:10px;overflow:hidden;gap:1px"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:0.4rem">
+        <span id="sleep-time-start" style="font-size:0.75rem;color:#7888aa"></span>
+        <span id="sleep-time-end"   style="font-size:0.75rem;color:#7888aa"></span>
+      </div>
     </div>
     <div id="wake-events"></div>
     <div class="card">
@@ -62,53 +67,22 @@ async function load() {
     <a href="insights.html" class="nav-btn">View AI Insights <span>›</span></a>
   `;
 
-  // Draw chart
-  const ctx = document.getElementById('sleep-chart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: sleepData.map(d => fmt(d.created_at)),
-      datasets: [{
-        data: sleepData.map(d => qualityNum(d.quality)),
-        borderWidth: 2,
-        stepped: true,
-        fill: true,
-        backgroundColor: 'rgba(74,158,255,0.08)',
-        pointRadius: 3,
-        pointHoverRadius: 5,
-        pointBackgroundColor: '#4a9eff',
-        pointBorderWidth: 0,
-        segment: {
-          borderColor: ctx => {
-            const v = ctx.p0.parsed.y;
-            return v === 2 ? '#4a9eff' : v === 1 ? '#fb923c' : '#ef4444';
-          }
-        }
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: {
-          ticks: { color: '#7888aa', maxTicksLimit: 6, font: { size: 11 } },
-          grid:  { color: 'rgba(255,255,255,0.04)' },
-        },
-        y: {
-          min: -0.3, max: 2.3,
-          ticks: {
-            color: '#7888aa',
-            stepSize: 1,
-            callback: v => v === 2 ? 'Calm' : v === 1 ? 'Restless' : v === 0 ? 'Awake' : '',
-            font: { size: 11 },
-          },
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          border: { display: false },
-        }
-      }
-    }
-  });
+  // Draw timeline
+  const colorMap = { calm: '#4a9eff', restless: '#fb923c', awake: '#ef4444' };
+  const total    = new Date(sleepData[sleepData.length - 1].created_at) - new Date(sleepData[0].created_at);
+  const timeline = document.getElementById('sleep-timeline');
+
+  for (let i = 0; i < sleepData.length - 1; i++) {
+    const duration = new Date(sleepData[i + 1].created_at) - new Date(sleepData[i].created_at);
+    const pct      = (duration / total) * 100;
+    const seg      = document.createElement('div');
+    seg.title      = `${fmt(sleepData[i].created_at)} — ${sleepData[i].quality}`;
+    seg.style.cssText = `flex:0 0 ${pct}%;background:${colorMap[sleepData[i].quality]};opacity:0.85;border-radius:2px`;
+    timeline.appendChild(seg);
+  }
+
+  document.getElementById('sleep-time-start').textContent = fmt(sleepData[0].created_at);
+  document.getElementById('sleep-time-end').textContent   = fmt(sleepData[sleepData.length - 1].created_at);
 
   // Wake events
   const wakeEvents = [];
