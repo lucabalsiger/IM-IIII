@@ -53,12 +53,21 @@ $user_id = $_SESSION['user_id'];
 $type    = $_GET['type'] ?? 'environment';
 
 if ($type === 'environment') {
-    $limit = min((int)($_GET['limit'] ?? 20), 100);
-    $stmt  = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid ORDER BY created_at DESC LIMIT :lim");
-    $stmt->bindValue(':uid', $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(':lim', $limit,   PDO::PARAM_INT);
+    if (isset($_GET['hours'])) {
+        $hours = min((int)$_GET['hours'], 48);
+        $stmt  = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid AND created_at >= NOW() - INTERVAL :hours HOUR ORDER BY created_at ASC");
+        $stmt->bindValue(':uid',   $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':hours', $hours,   PDO::PARAM_INT);
+    } else {
+        $limit = min((int)($_GET['limit'] ?? 20), 500);
+        $stmt  = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid ORDER BY created_at DESC LIMIT :lim");
+        $stmt->bindValue(':uid', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':lim', $limit,   PDO::PARAM_INT);
+    }
     $stmt->execute();
-    send(["success" => true, "data" => array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC))]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!isset($_GET['hours'])) $rows = array_reverse($rows);
+    send(["success" => true, "data" => $rows]);
 }
 
 if ($type === 'sleep') {
