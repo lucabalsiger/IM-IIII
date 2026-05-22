@@ -105,6 +105,17 @@
 
     .chart-wrap { height: 58px; margin-top: 1rem; }
 
+    .chart-link {
+      display: block;
+      text-align: right;
+      font-size: 0.78rem;
+      color: #7888aa;
+      text-decoration: none;
+      margin-top: 0.5rem;
+    }
+
+    .chart-link:hover { color: #f0f4ff; }
+
     .nav-btn {
       display: flex;
       align-items: center;
@@ -149,6 +160,7 @@
       <div class="badge optimal" id="temp-badge">—</div>
     </div>
     <div class="chart-wrap"><canvas id="temp-chart"></canvas></div>
+    <a href="history.html?sensor=temp" class="chart-link">View full history ›</a>
   </div>
 
   <div class="card">
@@ -161,6 +173,7 @@
       <div class="badge optimal" id="humidity-badge">—</div>
     </div>
     <div class="chart-wrap"><canvas id="humidity-chart"></canvas></div>
+    <a href="history.html?sensor=humidity" class="chart-link">View full history ›</a>
   </div>
 
   <div class="card">
@@ -173,6 +186,7 @@
       <div class="badge optimal" id="sound-badge">—</div>
     </div>
     <div class="chart-wrap"><canvas id="sound-chart"></canvas></div>
+    <a href="history.html?sensor=sound" class="chart-link">View full history ›</a>
   </div>
 
   <a href="sleep.html" class="nav-btn">View Sleep Analysis <span>›</span></a>

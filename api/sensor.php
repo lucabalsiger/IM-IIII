@@ -53,7 +53,12 @@ $user_id = $_SESSION['user_id'];
 $type    = $_GET['type'] ?? 'environment';
 
 if ($type === 'environment') {
-    if (isset($_GET['hours'])) {
+    if (isset($_GET['days'])) {
+        $days = min((int)$_GET['days'], 365);
+        $stmt = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid AND created_at >= NOW() - INTERVAL :days DAY ORDER BY created_at ASC");
+        $stmt->bindValue(':uid',  $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':days', $days,    PDO::PARAM_INT);
+    } elseif (isset($_GET['hours'])) {
         $hours = min((int)$_GET['hours'], 48);
         $stmt  = $pdo->prepare("SELECT temperature, humidity, sound_level, created_at FROM environment_data WHERE user_id = :uid AND created_at >= NOW() - INTERVAL :hours HOUR ORDER BY created_at ASC");
         $stmt->bindValue(':uid',   $user_id, PDO::PARAM_INT);
@@ -66,7 +71,7 @@ if ($type === 'environment') {
     }
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if (!isset($_GET['hours'])) $rows = array_reverse($rows);
+    if (!isset($_GET['hours']) && !isset($_GET['days'])) $rows = array_reverse($rows);
     send(["success" => true, "data" => $rows]);
 }
 
