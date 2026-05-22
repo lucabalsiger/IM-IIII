@@ -124,7 +124,7 @@ async function load() {
       sleepMinutes += diff;
     }
   }
-  document.getElementById('total-sleep').textContent = Math.floor(sleepMinutes / 60) + 'h ' + (sleepMinutes % 60) + 'm';
+  document.getElementById('total-sleep').textContent = Math.floor(sleepMinutes / 60) + 'h ' + Math.round(sleepMinutes % 60) + 'm';
   document.getElementById('wake-count').textContent  = wakeEvents.length;
 }
 
