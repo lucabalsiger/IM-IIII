@@ -142,6 +142,8 @@ GitHub Actions deployt bei jedem Push auf `main` automatisch per FTP. Dazu drei 
 | VCC (alle) | 3.3V |
 | GND (alle) | GND |
 
+![Steckplan](Steckplan.jpg)
+
 **Software installieren:**
 1. [Arduino IDE](https://www.arduino.cc/en/software) installieren
 2. ESP32-Board-Package hinzufügen: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
