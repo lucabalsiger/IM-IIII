@@ -1,5 +1,10 @@
 # Baby Sleep Assistant
 
+*LOG IN DATEN*
+
+User: luca.balsiger@stud.fhgr.ch
+PW: 123457
+
 ## Kurzbeschreibung des Projekts
 
 * **Modul:** Interaktive Medien 4 an der Fachhochschule Graubünden (FS26)
