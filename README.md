@@ -10,7 +10,7 @@ PW: 123457
 * **Modul:** Interaktive Medien 4 an der Fachhochschule Graubünden (FS26)
 * **Themenfeld:** IoT-Applikation zum Thema Eltern mit kleinen Kindern
 * **Name des Projekts:** Baby Sleep Assistant
-* **Team Physical Computing:** Laura Jäger, Lorena Ritschard
+* **Team Physical Computing:** Laura Valentina Jaeger, Lorena Ritschard
 * **Team WebApp:** Luca Balsiger, Jule Metzger
 
 **Welches Problem wird gelöst?**
@@ -47,7 +47,7 @@ Baby Sleep Assistant überwacht automatisch Temperatur, Luftfeuchtigkeit und Ger
 ### Setup
 
 * **WebApp:** [im4.lucabalsiger.ch/dashboard.html](https://im4.lucabalsiger.ch/dashboard.html)
-* **Video-Dokumentation:** [Link zum Video auf Youtube](http://link.zum.video)
+* **Video-Dokumentation:** [Link zum Video auf Youtube](https://www.youtube.com/shorts/8b1_HcqNpIc)
 
 #### Installationsanleitung WebApp
 
@@ -134,16 +134,18 @@ GitHub Actions deployt bei jedem Push auf `main` automatisch per FTP. Dazu drei 
 |---|---|
 | ESP32-C6 DevKit | Mikrocontroller mit WLAN |
 | DHT11 | Temperatur & Luftfeuchtigkeit |
-| KY-038 (Schallsensor) | Geräuschpegel |
-| MPU6050 | Bewegungserkennung (Schlafqualität) |
+| INMP441 | Mikrofon (Geräuscherkennung) | 
+| SR602 PIR | Bewegungserkennung (Schlafqualität) |
 
 **Verkabelung Sensor-Board (Kombi-Sketch):**
 | Sensor | Pin am ESP32-C6 |
 |---|---|
-| DHT11 Data | GPIO 4 |
-| KY-038 Analog | GPIO 34 |
-| MPU6050 SDA | GPIO 21 |
-| MPU6050 SCL | GPIO 22 |
+| DHT11 Data | GPIO 3 |
+| SR602 OUT | GPIO 7 |
+| INMP441 SD | GPIO 13 |
+| INMP441 SCK | GPIO 8 |
+| INMP441 WS | GPIO 23 |
+| INMP441 L/R | GND |
 | VCC (alle) | 3.3V |
 | GND (alle) | GND |
 
@@ -155,7 +157,6 @@ GitHub Actions deployt bei jedem Push auf `main` automatisch per FTP. Dazu drei 
 3. Board: **ESP32C6 Dev Module**
 4. Libraries installieren (Manage Libraries):
    - `DHT sensor library` by Adafruit
-   - `Adafruit MPU6050` by Adafruit
    - `Adafruit Unified Sensor` by Adafruit
 
 **Sketch flashen:**
@@ -195,7 +196,7 @@ IM-IIII/
 ├── system/
 │   └── config.php         # DB-Credentials (gitignored)
 ├── arduino/
-│   ├── sensor_komplett/   # Kombi-Sketch: DHT11 + KY-038 + MPU6050
+│   ├── sensor_komplett/   # Kombi-Sketch: DHT11 + INMP441 + SR602 PIR
 │   ├── sensor1_umgebung/  # Nur Temperatur & Luftfeuchtigkeit
 │   └── sensor2_schlaf/    # Nur Schlafqualität via Bewegung
 ├── dashboard.html
@@ -209,7 +210,7 @@ IM-IIII/
 
 ### Datenschnittstelle (WebApp ↔ Physical Computing)
 
-Der ESP32 sendet alle 5 Minuten HTTP POST-Requests an die API:
+Der ESP32 sendet alle 30 Sekunden HTTP POST-Requests an die API:
 
 ```
 POST https://im4.lucabalsiger.ch/api/sensor.php
@@ -245,7 +246,7 @@ Login setzt eine PHP-Session (`$_SESSION['user_id']`). Alle geschützten Seiten 
 
 - WLAN-Verbindung auf ESP32-C6 schlägt fehl, wenn das Netz MAC-Filtering oder ein Captive Portal verwendet
 - Sleep-Timeline zeigt nur Daten der aktuellen Nacht (kein historischer Rückblick)
-- Sound-Level-Werte des KY-038 sind nicht kalibriert (relative Skala 0–100, keine echten dB)
+- Sound-Level-Werte des INMP441 sind nicht kalibriert (relative Skala 0–100, keine echten dB)
 - Bei sehr vielen Datenpunkten kann das Dashboard-Chart unübersichtlich werden
 
 ---
@@ -260,6 +261,7 @@ Das Projekt hat gezeigt, wie komplex die Verbindung von Hardware und Webapplikat
 - *JSON-Antworten korrupt durch PHP-Output* → Lösung: `ob_start()` / `ob_clean()` Pattern in allen API-Files
 - *ESP32-C6 verbindet sich nicht mit WLAN* → Lösung: `WiFi.mode(WIFI_STA)` + `WiFi.disconnect(true)` vor `WiFi.begin()`
 - *API-Key versehentlich ins Git committed* → Lösung: Key widerrufen, neuen Key in gitignorierter `system/config.php` ablegen
+- *INMP441 Geräuschpegel nicht kalibriert* → Lösung: Normalisierung auf relative Skala 0–100 mit Glättungsfilter (50/50 zwischen aktuellem und letztem Wert), absolute dB-Werte wären nur mit Referenzmessung möglich
 
 **KI-Einsatz:**
 Claude (Anthropic) wurde während der gesamten Entwicklung als Coding-Assistent eingesetzt — für die Generierung von PHP-API-Dateien, JavaScript-Logik, Arduino-Sketches, SQL-Abfragen und Debugging. Der Code wurde stets überprüft und angepasst. KI hat die Entwicklungsgeschwindigkeit massgeblich erhöht, ersetzt aber nicht das Verständnis der zugrundeliegenden Konzepte.
