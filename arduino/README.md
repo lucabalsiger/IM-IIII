@@ -3,6 +3,11 @@
 ## Kombi-Sketch — Temperatur, Luftfeuchtigkeit, Bewegung & Geräusch
 **Ordner:** `sensor_komplett/`
 
+## Voraussetzungen
+1. [Arduino IDE](https://www.arduino.cc/en/software) installieren
+2. ESP32-Board-Package hinzufügen: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
+3. Board: **ESP32C6 Dev Module**
+
 ### Hardware
 - ESP32-C6
 - DHT11 → GPIO 3
@@ -19,6 +24,12 @@ In `sensor_komplett.ino` anpassen:
 const char* WIFI_SSID = "WLAN-NAME";
 const char* WIFI_PASS = "WLAN-PASSWORT";
 ```
+### Sketch flashen
+1. `sensor_komplett.ino` in Arduino IDE öffnen
+2. ESP32-C6 per USB verbinden
+3. BOOT-Taste halten → Upload → bei "Connecting..." loslassen
+4. Seriellen Monitor öffnen (115200 Baud) → Verbindung und Messwerte prüfen
+
 ### Schlafqualität-Logik
 Der SR602 PIR misst Bewegung über 10 Messungen in 2 Sekunden:
 ```cpp
