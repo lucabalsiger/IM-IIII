@@ -1,7 +1,7 @@
 # Sensor-Code für ESP32-C6
 
 ## Sensor 1 — Temperatur & Luftfeuchtigkeit
-**Ordner:** `sensor1_umgebung/`
+**Ordner:** `sensor_komplett/`
 
 ### Hardware
 - ESP32-C6
