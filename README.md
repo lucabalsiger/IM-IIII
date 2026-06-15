@@ -165,8 +165,8 @@ GitHub Actions deployt bei jedem Push auf `main` automatisch per FTP. Dazu drei 
 1. `arduino/sensor_komplett/sensor_komplett.ino` öffnen
 2. WLAN-Daten eintragen:
 ```cpp
-const char* WIFI_SSID = "euer-wlan";
-const char* WIFI_PASS = "euer-passwort";
+const char* WIFI_SSID = "WLAN_NAME";
+const char* WIFI_PASS = "WLAN_PASSWORT";
 ```
 3. BOOT-Taste halten → Upload → bei "Connecting..." loslassen
 
