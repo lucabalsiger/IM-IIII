@@ -12,7 +12,7 @@
 - `Adafruit Unified Sensor` von Adafruit
 
 ### Konfiguration
-In `sensor1_umgebung.ino` anpassen:
+In `sensor_komplett.ino` anpassen:
 ```cpp
 const char* WIFI_SSID = "WLAN-NAME";
 const char* WIFI_PASS = "WLAN-PASSWORT";
