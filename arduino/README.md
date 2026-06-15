@@ -1,4 +1,8 @@
 # Sensor-Code für ESP32-C6
+> Dieser Code läuft auf dem ESP32-C6 und erfasst alle 30 Sekunden 
+> Temperatur, Luftfeuchtigkeit, Geräuschpegel und Bewegung im Kinderzimmer. 
+> Die Daten werden automatisch ans Backend gesendet.
+> Für die vollständige Projektdokumentation → siehe Haupt-README.
 
 ## Kombi-Sketch — Temperatur, Luftfeuchtigkeit, Bewegung & Geräusch
 **Ordner:** `sensor_komplett/`
