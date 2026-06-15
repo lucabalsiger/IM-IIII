@@ -13,8 +13,8 @@
 // ==================== Konfiguration ====================
 
 // WLAN-Zugangsdaten (für Verbindung zum Netzwerk)
-const char* WIFI_SSID = "euer-wlan";
-const char* WIFI_PASS = "euer_passwort";
+const char* WIFI_SSID = "WLAN_NAME";
+const char* WIFI_PASS = "WLAN_PASSWORT";
 
 // API-Endpunkt des Servers zur Datenübertragung (HTTP POST)
 const char* API_URL   = "https://im4.lucabalsiger.ch/api/sensor.php";
